@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form>
+			<input type="text" name="name" placeholder="name" />
+			<input type="password" name="password" placeholder="password" />
+			<button type="submit">отпарить</button>
+		</form>
+		<script>
+			const form = document.querySelector("form");
+
+			form.addEventListener("submit", async (e) => {
+				e.preventDefault();
+
+				const formData = new FormData(form);
+				const name = formData.get("name");
+				const password = formData.get("password");
+
+				const response = await fetch("http://localhost:3001/auth", {
+					method: "POST",
+					body: JSON.stringify({ name, password }),
+
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+
+				const result = await response.json();
+				console.log(result);
+				form.reset();
+			});
+		</script>
+	</body>
+</html>
